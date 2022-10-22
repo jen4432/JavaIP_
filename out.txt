@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+-<root>
+
+<element>a+b </element>
+
+<element>a+b + c </element>
+
+<element>a -b </element>
+
+</root>

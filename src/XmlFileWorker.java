@@ -38,10 +38,7 @@ public class XmlFileWorker {
 
     public void write(ArrayList list,String filename) throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-
-        int no=2;
-        String root = "SMS";
+        String root = "root";
         DocumentBuilderFactory documentBuilderFactory =DocumentBuilderFactory.newInstance();
 
         DocumentBuilder documentBuilder =documentBuilderFactory.newDocumentBuilder();
@@ -51,64 +48,26 @@ public class XmlFileWorker {
         Element rootElement = document.createElement(root);
 
         document.appendChild(rootElement);
-        String element ="Number";
-        System.out.print("Enter the Number: ");
-        String data = bf.readLine();
-        Element em = document.createElement(element);
-        em.appendChild(document.createTextNode(data));
-        rootElement.appendChild(em);
 
-        String element1 ="message";
-        System.out.print("Enter the SMS: ");
-        String data1 = bf.readLine();
-        Element em1 = document.createElement(element1);
-        em1.appendChild(document.createTextNode(data1));
-        rootElement.appendChild(em1);
-
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        DOMSource source = new DOMSource(document);
-        StreamResult result =  new StreamResult(new StringWriter());
-        transformer.transform(source, result);
-
-        //writing to file
-        FileOutputStream fop = null;
-        File file;
-        try {
-
-            file = new File(filename);
-            fop = new FileOutputStream(file);
-
-            // if file doesnt exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            else{
-
-            }
-
-            // get the content in bytes
-            String xmlString = result.getWriter().toString();
-            System.out.println(xmlString);
-            byte[] contentInBytes = xmlString.getBytes();
-
-            fop.write(contentInBytes);
-            fop.flush();
-            fop.close();
-
-            System.out.println("Done");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fop != null) {
-                    fop.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        for(int i = 0; i < list.size();i++){
+            String element ="element";
+            Element em = document.createElement(element);
+            em.appendChild(document.createTextNode(list.get(i).toString()));
+            rootElement.appendChild(em);
         }
+
+        try {
+            OutputStream fileOutputStream = new FileOutputStream(filename);
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            Transformer transformer = tFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(fileOutputStream);
+            transformer.transform(source, result);
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

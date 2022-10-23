@@ -44,6 +44,7 @@ public class TxtFileWorker {
                 file.createNewFile();
             }
 
+
             PrintWriter pr = new PrintWriter(file);
             for(int i = 0;i < list.size(); i++){
                 String line = list.get(i);

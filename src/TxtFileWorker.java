@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TxtFileWorker {
-    public static String writeFileName = "output.txt";
     public static List<String> read(String fileName) throws IOException {
         BufferedReader br = null;
         List<String> list = new ArrayList<>();
